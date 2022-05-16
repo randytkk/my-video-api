@@ -1,0 +1,479 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "The Swagger documentation",
+        "description": "Swagger documentation for the test preoject"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "User",
+            "description": "API for users of the system"
+        },
+        {
+            "name": "Video",
+            "description": "API for for working with videos"
+        }
+    ],
+    "schemes": [
+      "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+        "/user/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summry": "Create new user in the system",
+                "description": "API to register the user as an authorised user of the sysem",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "Username to identify the user. This field must be unique.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "username"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New user is created",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{username}/unregister": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "path",
+                    "required": true,
+                    "description": "Username of the user that we want to unregister",
+                    "type": "string"
+                },
+                {
+                    "name": "username",
+                    "in": "header",
+                    "required": true,
+                    "description": "Username of user making the unregister request",
+                    "type": "string"
+                },
+                {
+                    "name": "apikey",
+                    "in": "header",
+                    "required": true,
+                    "description": "API Key of user making the unregister request",
+                    "type": "string"
+                }
+            ],
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Disable user in the system",
+                "description": "API to unregister the user as an authorised user of the sysem",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/all": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "header",
+                    "required": true,
+                    "description": "Username of the admin user requesting for the user list",
+                    "type": "string"
+                },
+                {
+                    "name": "apikey",
+                    "in": "header",
+                    "required": true,
+                    "description": "API Key of the admin user requesting for the user list",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a list of users",
+                "description": "API for an admin user get a list users of the system",
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/{username}": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "path",
+                    "required": true,
+                    "description": "Username of the user that we want to retrieve the details on",
+                    "type": "string"
+                },
+                {
+                    "name": "username",
+                    "in": "header",
+                    "required": true,
+                    "description": "Username of the admin user requesting for the user detail",
+                    "type": "string"
+                },
+                {
+                    "name": "apikey",
+                    "in": "header",
+                    "required": true,
+                    "description": "API Key of the admin user requesting for the user detail",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get a user detail",
+                "description": "API for an admin user or a user get the user's detail",
+                "responses": {
+                    "200": {
+                        "description": "Details of the given user",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                }
+            }
+        },
+        "/video/": {
+            "post": {
+                "tags": [
+                    "Video"
+                ],
+                "summry": "Add a new video in the system",
+                "description": "API to add a new video to the sysem",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "header",
+                        "description": "Username of user making the unregister request",
+                        "type": "string"
+                    },
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "description": "API Key of user making the unregister request",
+                        "type": "string"
+                    },
+                    {
+                        "name": "video details",
+                        "in": "body",
+                        "description": "Video information to capture",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "url",
+                                "thumbnailUrl",
+                                "isPrivate"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "thumbnailUrl": {
+                                    "type": "string"
+                                },
+                                "isPrivate": {
+                                    "type": "boolean",
+                                    "default": false
+                                }
+                            }
+                        },
+                        "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New video is created",
+                        "schema": {
+                            "$ref": "#/definitions/Video"
+                        }
+                    }
+                }
+            }
+        },
+        "/video/list": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "header",
+                    "description": "Username of the admin user requesting for the list of videos",
+                    "type": "string"
+                },
+                {
+                    "name": "apikey",
+                    "in": "header",
+                    "description": "API Key of the admin user requesting for the list of videos",
+                    "type": "string"
+                },
+                {
+                    "name": "video search filters",
+                    "in": "body",
+                    "description": "Filters for searching the list of videos",
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "includePrivate",
+                            "popular",
+                            "page",
+                            "size"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "includePrivate": {
+                                "type": "boolean",
+                                "default": false,
+                                "description": "Include the user's private videos"
+                            },
+                            "popular": {
+                                "type": "boolean",
+                                "description": "Restrict to videos that has been viewed more than 42 times"
+                            },
+                            "page": {
+                                "type": "integer",
+                                "default": 0,
+                                "description": "Returns a specific page when there are more items that shown. Starts from 0"
+                            },
+                            "size": {
+                                "type": "integer",
+                                "default": 10,
+                                "description": "Limits the number of videos returned. Default is 10."
+                            }
+                        }
+                    },
+                    "style": "simple"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Get a list of videos",
+                "description": "API for a user retrieve a list of videos",
+                "responses": {
+                    "200": {
+                        "description": "List of videos based on provided filters",
+                        "schema": {
+                            "$ref": "#/definitions/Video"
+                        }
+                    }
+                }
+            }
+        },
+        "/video/{video_id}": {
+            "parameters": [
+                {
+                    "name": "username",
+                    "in": "header",
+                    "description": "Username of the admin user requesting for a particular video. Required when deleting a video.",
+                    "type": "string"
+                },
+                {
+                    "name": "apikey",
+                    "in": "header",
+                    "description": "API Key of the admin user requesting for a particular video. Required when deleting a video.",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Get the information of video",
+                "description": "API for a user to retrieve information of a video",
+                "responses": {
+                    "200": {
+                        "description": "Description of request video",
+                        "schema": {
+                            "$ref": "#/definitions/Video"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Video"
+                ],
+                "summary": "Delete a video",
+                "description": "API for an authorised user to delete a video",
+                "responses": {
+                    "200": {
+                        "description": "Video is deleted"
+                    }
+                }
+            }
+        },
+        "/video/{video_id}/update": {
+            "put": {
+                "tags": [
+                    "Video"
+                ],
+                "summry": "Update a video in the system",
+                "description": "API for an authorised user to update a video to the system",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "header",
+                        "required": true,
+                        "description": "Username of user making the unregister request",
+                        "type": "string"
+                    },
+                    {
+                        "name": "apikey",
+                        "in": "header",
+                        "required": true,
+                        "description": "API Key of user making the unregister request",
+                        "type": "string"
+                    },
+                    {
+                        "name": "details of video to update",
+                        "in": "body",
+                        "description": "Details of video to update. Remove fields not updated.",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "name",
+                                "url",
+                                "thumbnailUrl",
+                                "isPrivate"
+                            ],
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "thumbnailUrl": {
+                                    "type": "string"
+                                },
+                                "isPrivate": {
+                                    "type": "boolean",
+                                    "default": false
+                                }
+                            }
+                        },
+                        "style": "simple"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Video is updated",
+                        "schema": {
+                            "$ref": "#/definitions/Video"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "User": {
+            "required": [
+                "username",
+                "apiKey",
+                "role"
+            ],
+            "properties": {
+                "username": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "apiKey": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "role": {
+                    "type": "string"
+                },
+                "isDeleted": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "Video": {
+            "required": [
+                "id",
+                "name",
+                "url",
+                "thumbnailUrl",
+                "isPrivate",
+                "timesViewed",
+                "username"
+
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "thumbnailUrl": {
+                    "type": "string"
+                },
+                "isPrivate": {
+                    "type": "boolean"
+                },
+                "timesViewed": {
+                    "type": "integer"
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+  }
